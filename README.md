@@ -12,7 +12,7 @@ IP-lists are fetched from 'https://www.dan.me.uk/torlist/?exit'.
 iptables replacement of new rules works nearly atomic.
 
 
-# example iptables rule layout and logic
+# iptables rule layout and logic
 
 ```
 # send all incoming traffic to chain 'tor':
@@ -21,11 +21,11 @@ Chain INPUT (policy ACCEPT 11031 packets, 6043475 bytes)
    11031  6043475 tor        all  --  *      *       0.0.0.0/0            0.0.0.0/0
 
 
-# everything that matched gets REJECTED:
+# everything that matches gets REJECTED here:
 Chain tor (1 references)
     pkts      bytes target     prot opt in     out     source               destination
        0        0 REJECT     all  --  *      *       103.15.28.215        0.0.0.0/0      reject-with icmp-port-unreachable
-       0        0 REJECT     all  --  *      *       103.208.220.122      0.0.0.0/0      reject-with icmp-port-unreachable
+       5     4108 REJECT     all  --  *      *       103.208.220.122      0.0.0.0/0      reject-with icmp-port-unreachable
        0        0 REJECT     all  --  *      *       103.208.220.226      0.0.0.0/0      reject-with icmp-port-unreachable
 
 [...]
