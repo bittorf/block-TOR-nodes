@@ -27,6 +27,7 @@ is_ipv4()
 	case "$word" in
 		[0-9].*|[0-9][0-9].*|[0-9][0-9][0-9].*)
 			# e.g. 102.130.112.81
+			# e.g. 102.*
 			true
 		;;
 		*)
@@ -43,6 +44,7 @@ is_ipv6()
 	case "$word" in
 		${hex}:*|${hex}${hex}:*|${hex}${hex}${hex}:*|${hex}${hex}${hex}${hex}:*)
 			# e.g. 2001:41d0:0052:0d00:0000:0000:0000:0025
+			# e.g. 2001:*
 			true
 		;;
 		*)
@@ -90,7 +92,7 @@ netfilter_apply()
 	$IPT6 --new 'tor-temporary' || return 1
 
 	while read -r ip; do {
-		is_ipv4 "$ip" && $IPT4 -A tor-temporary -s "$ip" -j REJECT
+		is_ipv4 "$ip" && $IPT4 -A tor-temporary -s "$ip" -j REJECT && continue
 		is_ipv6 "$ip" && $IPT6 -A tor-temporary -s "$ip" -j REJECT
 	} done <"$file"
 
