@@ -71,7 +71,6 @@ netfilter_chain_remove()
 netfilter_atomic_replace()
 {
 	local name="$1"
-
 	
 	$IPT4 --rename-chain "$name"           "$name-old" 2>/dev/null
 	$IPT4 --rename-chain "$name-temporary" "$name"
@@ -101,16 +100,16 @@ netfilter_apply()
 download_and_apply()
 {
 	list_download "$URL" >"$FILE" && {
-		netfilter_apply "$FILE"
+		netfilter_apply "$FILE" && {
+			$IPT4 -I INPUT -j tor 2>/dev/null
+			$IPT6 -I INPUT -j tor 2>/dev/null
+		}
 	}
 }
 
 case "$ACTION" in
 	start|update)
 		download_and_apply
-
-		$IPT4 -I INPUT -j tor 2>/dev/null
-		$IPT6 -I INPUT -j tor 2>/dev/null
 	;;
 	stop)
 		netfilter_chain_remove 'tor' force
