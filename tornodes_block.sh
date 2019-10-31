@@ -92,8 +92,8 @@ netfilter_apply()
 	$IPT6 --new 'tor-temporary' || return 1
 
 	while read -r ip; do {
-		is_ipv4 "$ip" && $IPT4 -A tor-temporary -s "$ip" -j REJECT && continue
-		is_ipv6 "$ip" && $IPT6 -A tor-temporary -s "$ip" -j REJECT
+		is_ipv4 "$ip" && $IPT4 -A tor-temporary -s "$ip/32" -j REJECT && continue
+		is_ipv6 "$ip" && $IPT6 -A tor-temporary -s "$ip/64" -j REJECT
 	} done <"$file"
 
 	netfilter_atomic_replace 'tor'
