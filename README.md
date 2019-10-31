@@ -1,6 +1,6 @@
 # setup
 
-use cronjob for regular updates:
+use hourly cronjob as user 'root' for regular updates:
 ```
 6 * * * * /usr/local/bin/tornodes_block.sh update
 ```
