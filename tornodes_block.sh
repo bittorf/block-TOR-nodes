@@ -2,8 +2,8 @@
 
 ACTION="$1"	# start|stop|update
 
-# https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1
-URL='https://www.dan.me.uk/torlist/?exit'
+URL1='https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1'
+URL2='https://www.dan.me.uk/torlist/?exit'
 
 FILE="/tmp/list.txt"
 IPT4='iptables --wait'
@@ -13,6 +13,7 @@ WGET_OPTS='--no-check-certificate --quiet'
 usage_show()
 {
 	echo "Usage: $0 <start|stop|update>"
+
 	false
 }
 
@@ -105,17 +106,21 @@ netfilter_apply()
 
 download_and_apply()
 {
-	list_download "$URL" >"$FILE" && {
-		netfilter_apply "$FILE" && {
-			$IPT4 -I INPUT -j tor 2>/dev/null
-			$IPT6 -I INPUT -j tor 2>/dev/null
-		}
+	list_download "$URL1"  >"$FILE" || return 1
+	list_download "$URL2" >>"$FILE" || return 1
+
+	sort --unique --output="$FILE" "$FILE" || return 1
+
+	netfilter_apply "$FILE" && {
+		$IPT4 -I INPUT -j tor 2>/dev/null
+		$IPT6 -I INPUT -j tor 2>/dev/null
+		true
 	}
 }
 
 case "$ACTION" in
 	start|update)
-		download_and_apply
+		download_and_apply || logger -s "download_and_apply() failed"
 	;;
 	stop)
 		netfilter_chain_remove 'tor' force
