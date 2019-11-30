@@ -2,10 +2,13 @@
 
 ACTION="$1"	# start|stop|update
 
+# https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1
 URL='https://www.dan.me.uk/torlist/?exit'
+
 FILE="/tmp/list.txt"
 IPT4='iptables --wait'
 IPT6='ip6tables --wait'
+WGET_OPTS='--no-check-certificate --quiet'
 
 usage_show()
 {
@@ -17,7 +20,8 @@ list_download()
 {
 	local url="$1"
 
-	wget --no-check-certificate -qO - "$url"
+	# shellcheck disable=SC2086
+	wget $WGET_OPTS --output-document=- "$url"
 }
 
 is_ipv4()
