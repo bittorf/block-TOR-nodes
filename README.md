@@ -7,7 +7,11 @@ use hourly cronjob as user 'root' for regular updates:
 
 # description
 
-IP-lists are fetched from 'https://www.dan.me.uk/torlist/?exit'.
+IP-lists are fetched from
+```
+'https://www.dan.me.uk/torlist/?exit' and
+'https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1'.
+```
 
 iptables replacement of new rules works nearly atomic.
 
