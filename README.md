@@ -1,3 +1,9 @@
+# what is it?
+
+This shell-script fetches lists of tor-exit-node IP-addresses, parses and
+sanitizes them and applies it as an iptables IPv4/IPv6-ruleset, so they are blocked.
+
+
 # setup
 
 use hourly cronjob as user 'root' for regular updates:
