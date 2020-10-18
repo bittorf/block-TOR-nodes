@@ -1,17 +1,17 @@
-# what is it?
+# What is it?
 
 This shell-script fetches lists of tor-exit-node IP-addresses, parses and
 sanitizes them and applies it as an iptables IPv4/IPv6-ruleset, so they are blocked.
 
 
-# setup
+# Setup
 
 use hourly cronjob as user 'root' for regular updates:
 ```
 6 * * * * /usr/local/bin/tornodes_block.sh update
 ```
 
-# description
+# Description
 
 IP-lists are fetched from
 ```
@@ -22,7 +22,7 @@ IP-lists are fetched from
 iptables replacement of new rules works nearly atomic.
 
 
-# iptables rule layout and logic
+# Layout of iptables rules and logic
 
 ```
 # send all incoming traffic to chain 'tor':
